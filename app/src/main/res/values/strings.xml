@@ -1,6 +1,13 @@
 <resources>
+
     <string name="app_name">Fitness Tracker</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <!--Menu itens-->
+    <string name="title_charts">Graficos</string>
+    <string name="title_list">Lista</string>
+    <string name="title_settings">Configurações</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

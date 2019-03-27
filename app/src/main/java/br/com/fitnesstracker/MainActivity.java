@@ -7,13 +7,19 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    private ChartsFragment chartsFragment = new ChartsFragment();
+    private ListFragment listFragment = new ListFragment();
+    private SettingsFragment settingsFragment = new SettingsFragment();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment currentFragment = chartsFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,14 +27,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                case R.id.navigation_charts:
+                    fragmentManager.beginTransaction().hide(currentFragment).show(chartsFragment).commit();
+                    currentFragment = chartsFragment;
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.navigation_list:
+                    fragmentManager.beginTransaction().hide(currentFragment).show(listFragment).commit();
+                    currentFragment = listFragment;
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.navigation_settings:
+                    fragmentManager.beginTransaction().hide(currentFragment).show(settingsFragment).commit();
+                    currentFragment = settingsFragment;
                     return true;
             }
             return false;
@@ -40,9 +49,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        fragmentManager.beginTransaction().add(R.id.main_container, chartsFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
     }
 
 }
