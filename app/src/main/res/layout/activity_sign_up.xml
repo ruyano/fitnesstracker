@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="br.com.fitnesstracker.view.signup.SignUpViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="backButton"
+            android:layout_margin="@dimen/login_activity_itens_margin"
+            android:src="@drawable/ic_left_arrow"
+            android:tint="@android:color/white"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <br.com.fitnesstracker.util.LogoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/login_activity_itens_margin"
+                    android:textColor="@color/colorAccent"
+                    android:layout_gravity="center"
+                    android:text="@string/logo_text" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/login_activity_itens_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/loginTextColor"
+                        android:hint="@string/full_name" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:error="@{viewModel.loginModel.emailError}"
+                    android:layout_margin="@dimen/login_activity_itens_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.loginModel.email}"
+                        app:onFocus="@{viewModel.getFocusChangeEmail()}"
+                        android:textColor="@color/loginTextColor"
+                        android:hint="@string/email" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/loginTextColor"
+                    app:error="@{viewModel.loginModel.passwordError}"
+                    android:layout_margin="@dimen/login_activity_itens_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:text="@={viewModel.loginModel.password}"
+                        app:onFocus="@{viewModel.getFocusChangePassword()}"
+                        android:textColor="@color/loginTextColor"
+                        android:hint="@string/password" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/sign_up_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/login_activity_itens_margin"
+                    android:background="@color/colorPrimaryDark"
+                    android:onClick="@{() -> viewModel.doSignUp()}"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/sign_up"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>
