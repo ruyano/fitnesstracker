@@ -17,5 +17,7 @@
     <string name="logo_text">Fitness Tracker</string>
     <string name="create_account">Criar conta</string>
     <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="user_or_password_invalid">Usuário ou senha inválidos!</string>
+    <string name="signUpError">Não foi possível criar seu usuário agora, tente novamente mais tarde!</string>
 
 </resources>

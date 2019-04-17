@@ -3,10 +3,10 @@ package br.com.fitnesstracker.view.signup;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepository;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepositoryImpl;
 import br.com.fitnesstracker.view.login.LoginModel;
 
 public class SignUpViewModel extends ViewModel {
@@ -14,9 +14,10 @@ public class SignUpViewModel extends ViewModel {
     private LoginModel mLoginModel;
     private View.OnFocusChangeListener mFocusChangeEmail;
     private View.OnFocusChangeListener mFocusChangePassword;
-    private MutableLiveData<LoginModel> mSignUpBtnClick = new MutableLiveData<>();
+    private UserManagementRepository userManagementRepository;
 
     public void init() {
+        userManagementRepository = new UserManagementRepositoryImpl();
         mLoginModel = new LoginModel();
 
         mFocusChangeEmail = new View.OnFocusChangeListener() {
@@ -56,13 +57,13 @@ public class SignUpViewModel extends ViewModel {
         return mFocusChangePassword;
     }
 
-    public MutableLiveData<LoginModel> getSignUpBtnClick() {
-        return mSignUpBtnClick;
+    public MutableLiveData<Boolean> getSignUpLiveData() {
+        return userManagementRepository.getSignUpLiveData();
     }
 
     public void doSignUp() {
         if (mLoginModel.isValid()) {
-            mSignUpBtnClick.setValue(mLoginModel);
+            userManagementRepository.signUp(mLoginModel.getEmail(), mLoginModel.getPassword());
         }
     }
 }

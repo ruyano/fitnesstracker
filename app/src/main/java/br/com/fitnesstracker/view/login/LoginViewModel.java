@@ -5,15 +5,18 @@ import android.widget.EditText;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepository;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepositoryImpl;
 
 public class LoginViewModel extends ViewModel {
 
     private LoginModel loginModel;
     private View.OnFocusChangeListener focusChangeEmail;
     private View.OnFocusChangeListener focusChangePassword;
-    private MutableLiveData<LoginModel> loginBtnClick = new MutableLiveData<>();
+    private UserManagementRepository userManagementRepository;
 
     void init() {
+        userManagementRepository = new UserManagementRepositoryImpl();
         loginModel = new LoginModel();
 
         focusChangeEmail = new View.OnFocusChangeListener() {
@@ -53,14 +56,15 @@ public class LoginViewModel extends ViewModel {
         return focusChangePassword;
     }
 
-    public MutableLiveData<LoginModel> getLoginBtnClick() {
-        return loginBtnClick;
+    public MutableLiveData<Boolean> getLoginLiveData() {
+        return userManagementRepository.getLoginLiveData();
     }
 
     public void doLogin() {
         if (loginModel.isValid()) {
-            loginBtnClick.setValue(loginModel);
+            userManagementRepository.login(loginModel.getEmail(), loginModel.getPassword());
         }
     }
+
 
 }

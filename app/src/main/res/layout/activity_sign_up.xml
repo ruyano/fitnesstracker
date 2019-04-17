@@ -9,101 +9,110 @@
             type="br.com.fitnesstracker.view.signup.SignUpViewModel" />
     </data>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:fillViewport="true">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:onClick="backButton"
-            android:layout_margin="@dimen/login_activity_itens_margin"
-            android:src="@drawable/ic_left_arrow"
-            android:tint="@android:color/white"/>
-
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-            <LinearLayout
+            <ImageView
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:padding="@dimen/back_button_padding"
+                android:layout_marginTop="8dp"
+                android:onClick="backButton"
+                android:src="@drawable/ic_left_arrow"
+                android:tint="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <br.com.fitnesstracker.util.LogoTextView
+                android:id="@+id/logoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logo_text"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                app:error="@{viewModel.loginModel.emailError}"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logoTextView">
 
-                <br.com.fitnesstracker.util.LogoTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    android:textColor="@color/colorAccent"
-                    android:layout_gravity="center"
-                    android:text="@string/logo_text" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin">
+                    android:hint="@string/email"
+                    android:text="@={viewModel.loginModel.email}"
+                    android:textColor="@color/loginTextColor"
+                    app:onFocus="@{viewModel.getFocusChangeEmail()}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/loginTextColor"
-                        android:hint="@string/full_name" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                app:error="@{viewModel.loginModel.passwordError}"
+                app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/loginTextColor">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:error="@{viewModel.loginModel.emailError}"
-                    android:layout_margin="@dimen/login_activity_itens_margin">
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.loginModel.password}"
+                    android:textColor="@color/loginTextColor"
+                    app:onFocus="@{viewModel.getFocusChangePassword()}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.loginModel.email}"
-                        app:onFocus="@{viewModel.getFocusChangeEmail()}"
-                        android:textColor="@color/loginTextColor"
-                        android:hint="@string/email" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/sign_up_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                android:background="@color/colorPrimaryDark"
+                android:onClick="@{() -> viewModel.doSignUp()}"
+                android:text="@string/sign_up"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/loginTextColor"
-                    app:error="@{viewModel.loginModel.passwordError}"
-                    android:layout_margin="@dimen/login_activity_itens_margin">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:text="@={viewModel.loginModel.password}"
-                        app:onFocus="@{viewModel.getFocusChangePassword()}"
-                        android:textColor="@color/loginTextColor"
-                        android:hint="@string/password" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/sign_up_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    android:background="@color/colorPrimaryDark"
-                    android:onClick="@{() -> viewModel.doSignUp()}"
-                    android:textColor="@color/colorAccent"
-                    android:text="@string/sign_up"/>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </layout>

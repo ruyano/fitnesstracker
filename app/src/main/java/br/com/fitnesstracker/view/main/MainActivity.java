@@ -1,4 +1,4 @@
-package br.com.fitnesstracker;
+package br.com.fitnesstracker.view.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import br.com.fitnesstracker.ChartsFragment;
+import br.com.fitnesstracker.ListFragment;
+import br.com.fitnesstracker.R;
+import br.com.fitnesstracker.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

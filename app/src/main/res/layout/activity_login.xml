@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -9,103 +10,127 @@
             type="br.com.fitnesstracker.view.login.LoginViewModel" />
     </data>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:fillViewport="true">
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-            <LinearLayout
+            <br.com.fitnesstracker.util.LogoTextView
+                android:id="@+id/logoTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/logo_text"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                app:error="@{viewModel.loginModel.emailError}"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/logoTextView2"
+                tools:layout_editor_absoluteX="16dp">
 
-                <br.com.fitnesstracker.util.LogoTextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.loginModel.email}"
+                    android:textColor="@color/loginTextColor"
+                    app:onFocus="@{viewModel.getFocusChangeEmail()}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                app:error="@{viewModel.loginModel.passwordError}"
+                app:layout_constraintBottom_toTopOf="@+id/login_btn"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/loginTextColor"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.loginModel.password}"
+                    android:textColor="@color/loginTextColor"
+                    app:onFocus="@{viewModel.getFocusChangePassword()}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginTop="@dimen/form_itens_separation"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                android:background="@color/colorPrimaryDark"
+                android:enabled="@{viewModel.loginModel.valid}"
+                android:onClick="@{() -> viewModel.doLogin()}"
+                android:text="@string/login"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/form_left_margin"
+                android:layout_marginEnd="@dimen/form_right_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_btn">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    android:textColor="@color/colorAccent"
-                    android:layout_gravity="center"
-                    android:text="@string/logo_text" />
+                    android:onClick="goToResetPassword"
+                    android:paddingTop="@dimen/form_itens_separation"
+                    android:paddingBottom="@dimen/form_itens_separation"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/colorAccent" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    app:error="@{viewModel.loginModel.emailError}" >
+                    android:paddingTop="@dimen/form_itens_separation"
+                    android:paddingBottom="@dimen/form_itens_separation"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="goToSignUp"
+                    android:text="@string/create_account"
+                    android:textColor="@color/colorAccent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:textColor="@color/loginTextColor"
-                        android:text="@={viewModel.loginModel.email}"
-                        app:onFocus="@{viewModel.getFocusChangeEmail()}"
-                        android:hint="@string/email" />
+            </RelativeLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/loginTextColor"
-                    app:error="@{viewModel.loginModel.passwordError}" >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:textColor="@color/loginTextColor"
-                        android:text="@={viewModel.loginModel.password}"
-                        app:onFocus="@{viewModel.getFocusChangePassword()}"
-                        android:hint="@string/password" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/login_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:layout_margin="@dimen/login_activity_itens_margin"
-                    android:background="@color/colorPrimaryDark"
-                    android:onClick="@{() -> viewModel.doLogin()}"
-                    android:enabled="@{viewModel.loginModel.valid}"
-                    android:text="@string/login"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/login_activity_itens_margin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/forgot_password"
-                        android:textColor="@color/colorAccent"
-                        android:onClick="goToResetPassword" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:textColor="@color/colorAccent"
-                        android:text="@string/create_account"
-                        android:onClick="goToSignUp" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </layout>

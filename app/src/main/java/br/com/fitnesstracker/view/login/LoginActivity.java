@@ -4,19 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import br.com.fitnesstracker.MainActivity;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.ActivityLoginBinding;
+import br.com.fitnesstracker.view.main.MainActivity;
 import br.com.fitnesstracker.view.resetpassword.ResetPasswordActivity;
 import br.com.fitnesstracker.view.signup.SignUpActivity;
 
@@ -44,25 +40,18 @@ public class LoginActivity extends AppCompatActivity {
             mViewModel.init();
         activityLoginBinding.setViewModel(mViewModel);
 
-        setupLoginBtn();
+        setupLoginObserver();
     }
 
-    private void setupLoginBtn() {
-        mViewModel.getLoginBtnClick().observe(this, new Observer<LoginModel>() {
+    private void setupLoginObserver() {
+        mViewModel.getLoginLiveData().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(LoginModel loginModel) {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signInWithEmailAndPassword(loginModel.getEmail(), loginModel.getPassword())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    goToMain();
-                                    return;
-                                }
-                                Toast.makeText(LoginActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            public void onChanged(Boolean loginSuccess) {
+                if (loginSuccess) {
+                    goToMain();
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.user_or_password_invalid), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
