@@ -26,4 +26,9 @@ public class CustomViewBindings {
         }
     }
 
+    @BindingAdapter("visibilityBool")
+    public static void bindVisibilityBool(View view, Boolean isVisible) {
+        view.setVisibility(isVisible == null ? View.VISIBLE : isVisible ? View.VISIBLE : View.GONE);
+    }
+
 }

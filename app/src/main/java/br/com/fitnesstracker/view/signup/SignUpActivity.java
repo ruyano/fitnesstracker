@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.ActivitySignUpBinding;
+import br.com.fitnesstracker.util.AppUtil;
 import br.com.fitnesstracker.view.main.MainActivity;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -36,18 +37,26 @@ public class SignUpActivity extends AppCompatActivity {
             mViewModel.init();
         activitySignUpBinding.setViewModel(mViewModel);
 
-        setupSignUpBtn();
+        setupSignUpObserver();
     }
 
-    private void setupSignUpBtn() {
+    private void setupSignUpObserver() {
         mViewModel.getSignUpLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean signUpSuccess) {
+                mViewModel.setIsLoading(false);
                 if (signUpSuccess) {
                     goToMain();
                 } else {
-                    Toast.makeText(SignUpActivity.this, getString(R.string.signUpError), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, getString(R.string.signup_error), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        mViewModel.getHideKeyboard().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                AppUtil.hideKeyboard(getCurrentFocus());
             }
         });
     }

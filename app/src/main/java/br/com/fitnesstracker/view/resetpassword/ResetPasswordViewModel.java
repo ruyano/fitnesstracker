@@ -1,30 +1,55 @@
 package br.com.fitnesstracker.view.resetpassword;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import android.view.View;
+import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepository;
+import br.com.fitnesstracker.repositories.user.management.UserManagementRepositoryImpl;
+import br.com.fitnesstracker.util.CustomViewModel;
+import br.com.fitnesstracker.view.login.LoginModel;
 
-public class ResetPasswordViewModel extends ViewModel {
+public class ResetPasswordViewModel extends CustomViewModel {
+
+    private LoginModel mLoginModel;
+    private View.OnFocusChangeListener mFocusChangeEmail;
+    private UserManagementRepository userManagementRepository;
 
     public void init() {
+        userManagementRepository = new UserManagementRepositoryImpl();
+        mLoginModel = new LoginModel();
 
+        mFocusChangeEmail = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v instanceof EditText) {
+                    EditText et = (EditText) v;
+                    if (et.getText().length() > 0 && !hasFocus) {
+                        mLoginModel.isEmailValid(true);
+                    }
+                }
+            }
+        };
+    }
+
+    public LoginModel getLoginModel() {
+        return mLoginModel;
+    }
+
+    public View.OnFocusChangeListener getFocusChangeEmail() {
+        return mFocusChangeEmail;
+    }
+
+    public MutableLiveData<Boolean> getResetPassWordLiveData() {
+        return userManagementRepository.getResetPassWordLiveData();
     }
 
     public void requestResetPassword() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.sendPasswordResetEmail("ruyano@gmail.com").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // TODO - mensagem de sucesso.
-                    return;
-                }
-                // TODO - mensagem de erro.
-            }
-        });
+        if (mLoginModel.isEmailValid(true)) {
+            hideKeyboard.setValue(hideKeyboard.getValue() == null || !hideKeyboard.getValue());
+            isLoading.set(true);
+            userManagementRepository.resetPassWord(mLoginModel.getEmail());
+        }
     }
 
 }

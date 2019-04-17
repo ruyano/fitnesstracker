@@ -18,6 +18,8 @@
     <string name="create_account">Criar conta</string>
     <string name="forgot_password">Esqueceu a senha?</string>
     <string name="user_or_password_invalid">Usuário ou senha inválidos!</string>
-    <string name="signUpError">Não foi possível criar seu usuário agora, tente novamente mais tarde!</string>
+    <string name="signup_error">Não foi possível criar seu usuário agora, tente novamente mais tarde!</string>
+    <string name="reset_password_error">Ops, ocorreu um erro, verifique se o email está correto e tente novamente!</string>
+    <string name="reset_password_success">Foi enviado um email para resetar a senha</string>
 
 </resources>

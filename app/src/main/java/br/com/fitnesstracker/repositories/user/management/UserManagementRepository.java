@@ -12,6 +12,8 @@ public interface UserManagementRepository {
 
     MutableLiveData<Boolean> getSignUpLiveData();
 
-    MutableLiveData<Boolean> resetPassWord(String email);
+    void resetPassWord(String email);
+
+    MutableLiveData<Boolean> getResetPassWordLiveData();
 
 }

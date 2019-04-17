@@ -4,12 +4,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import br.com.fitnesstracker.repositories.user.management.UserManagementRepository;
 import br.com.fitnesstracker.repositories.user.management.UserManagementRepositoryImpl;
+import br.com.fitnesstracker.util.CustomViewModel;
 import br.com.fitnesstracker.view.login.LoginModel;
 
-public class SignUpViewModel extends ViewModel {
+public class SignUpViewModel extends CustomViewModel {
 
     private LoginModel mLoginModel;
     private View.OnFocusChangeListener mFocusChangeEmail;
@@ -63,6 +63,8 @@ public class SignUpViewModel extends ViewModel {
 
     public void doSignUp() {
         if (mLoginModel.isValid()) {
+            hideKeyboard.setValue(hideKeyboard.getValue() == null || !hideKeyboard.getValue());
+            isLoading.set(true);
             userManagementRepository.signUp(mLoginModel.getEmail(), mLoginModel.getPassword());
         }
     }

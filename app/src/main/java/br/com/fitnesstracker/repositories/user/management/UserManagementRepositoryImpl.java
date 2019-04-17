@@ -12,6 +12,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository {
 
     private MutableLiveData<Boolean> mLoginLiveData;
     private MutableLiveData<Boolean> mSignUpLiveData;
+    private MutableLiveData<Boolean> mResetPassWordLiveData;
 
     @Override
     public void login(String email, String password) {
@@ -50,19 +51,21 @@ public class UserManagementRepositoryImpl implements UserManagementRepository {
     }
 
     @Override
-    public MutableLiveData<Boolean> resetPassWord(String email) {
-        final MutableLiveData<Boolean> resetPassWordSuccess = new MutableLiveData<>();
-
+    public void resetPassWord(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                resetPassWordSuccess.postValue(task.isSuccessful());
+                mResetPassWordLiveData.postValue(task.isSuccessful());
             }
         });
-
-        return resetPassWordSuccess;
     }
 
+    @Override
+    public MutableLiveData<Boolean> getResetPassWordLiveData() {
+        if (mResetPassWordLiveData == null)
+            mResetPassWordLiveData = new MutableLiveData<>();
+        return mResetPassWordLiveData;
+    }
 
 }

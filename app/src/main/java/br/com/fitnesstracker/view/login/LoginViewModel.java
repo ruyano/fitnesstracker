@@ -4,11 +4,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import br.com.fitnesstracker.repositories.user.management.UserManagementRepository;
 import br.com.fitnesstracker.repositories.user.management.UserManagementRepositoryImpl;
+import br.com.fitnesstracker.util.CustomViewModel;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends CustomViewModel {
 
     private LoginModel loginModel;
     private View.OnFocusChangeListener focusChangeEmail;
@@ -62,6 +62,8 @@ public class LoginViewModel extends ViewModel {
 
     public void doLogin() {
         if (loginModel.isValid()) {
+            hideKeyboard.setValue(hideKeyboard.getValue() == null || !hideKeyboard.getValue());
+            isLoading.set(true);
             userManagementRepository.login(loginModel.getEmail(), loginModel.getPassword());
         }
     }

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#353535</color>
     <color name="colorAccent">#fb671f</color>
 
+    <color name="colorPrimaryTranslucid">#95404040</color>
+
     <color name="loginTextColor">#FFFFFF</color>
 
 </resources>

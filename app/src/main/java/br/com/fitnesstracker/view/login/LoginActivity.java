@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.ActivityLoginBinding;
+import br.com.fitnesstracker.util.AppUtil;
 import br.com.fitnesstracker.view.main.MainActivity;
 import br.com.fitnesstracker.view.resetpassword.ResetPasswordActivity;
 import br.com.fitnesstracker.view.signup.SignUpActivity;
@@ -47,11 +48,19 @@ public class LoginActivity extends AppCompatActivity {
         mViewModel.getLoginLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loginSuccess) {
+                mViewModel.setIsLoading(false);
                 if (loginSuccess) {
                     goToMain();
                 } else {
                     Toast.makeText(LoginActivity.this, getString(R.string.user_or_password_invalid), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        mViewModel.getHideKeyboard().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                AppUtil.hideKeyboard(getCurrentFocus());
             }
         });
     }
