@@ -21,5 +21,9 @@
     <string name="signup_error">Não foi possível criar seu usuário agora, tente novamente mais tarde!</string>
     <string name="reset_password_error">Ops, ocorreu um erro, verifique se o email está correto e tente novamente!</string>
     <string name="reset_password_success">Foi enviado um email para resetar a senha</string>
+    <string name="question_date">Data</string>
+    <string name="question_abdomen">Abdômen</string>
+    <string name="question_waist">Cintura</string>
+    <string name="question_breastplate">Peitoral</string>
 
 </resources>

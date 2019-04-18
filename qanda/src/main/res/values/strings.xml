@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QAndA</string>
+    <string name="title_activity_question">QuestionActivity</string>
+    <string name="empty_answer_error">A resposta não pode ser vazia!</string>
+</resources>

@@ -16,7 +16,6 @@ public class CustomViewBindings {
         } else {
             textInputLayout.setError((String) strOrResId);
         }
-
     }
 
     @BindingAdapter("onFocus")

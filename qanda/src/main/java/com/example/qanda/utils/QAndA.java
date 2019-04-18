@@ -1,0 +1,18 @@
+package com.example.qanda.utils;
+
+import android.app.Activity;
+
+import com.example.qanda.models.Question;
+import com.example.qanda.activity.QuestionActivity;
+
+import java.util.ArrayList;
+
+public class QAndA {
+
+    public static final Integer QANDA_REQUEST_CODE = 1919;
+
+    public static void startQAndA(Activity activity, ArrayList<Question> questions) {
+        QuestionActivity.startQAndA(activity, questions);
+    }
+
+}

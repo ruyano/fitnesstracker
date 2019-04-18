@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.qanda.utils.QAndA;
+import com.example.qanda.models.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,4 +69,25 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
     }
 
+    public void startQAndA(View view) {
+        QAndA.startQAndA(this, questsGenerator());
+    }
+
+    private ArrayList<Question> questsGenerator() {
+        ArrayList<Question> questions = new ArrayList<>();
+
+        Question question = new Question(getString(R.string.question_date), Question.AnswerType.DATE);
+        questions.add(question);
+
+        Question question1 = new Question(getString(R.string.question_abdomen), Question.AnswerType.DOUBLE);
+        questions.add(question1);
+
+        Question question2 = new Question(getString(R.string.question_waist), Question.AnswerType.DOUBLE);
+        questions.add(question2);
+
+        Question question3 = new Question(getString(R.string.question_breastplate), Question.AnswerType.DOUBLE);
+        questions.add(question3);
+
+        return questions;
+    }
 }

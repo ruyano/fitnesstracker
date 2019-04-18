@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fitnesstracker.iml" filepath="$PROJECT_DIR$/fitnesstracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qanda/qanda.iml" filepath="$PROJECT_DIR$/qanda/qanda.iml" />
     </modules>
   </component>
 </project>
