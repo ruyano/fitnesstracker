@@ -34,7 +34,7 @@ public class CustomViewBindings {
                 editText.setInputType(InputType.TYPE_CLASS_DATETIME);
                 break;
             case DOUBLE:
-                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case STRING:
                 editText.setInputType(InputType.TYPE_CLASS_TEXT);

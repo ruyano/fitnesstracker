@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class QAndA {
 
     public static final Integer QANDA_REQUEST_CODE = 1919;
+    public static final String QUESTIONS_LIST = "QUESTIONS_LIST";
 
     public static void startQAndA(Activity activity, ArrayList<Question> questions) {
         QuestionActivity.startQAndA(activity, questions);

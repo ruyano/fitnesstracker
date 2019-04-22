@@ -8,6 +8,7 @@ public class Question implements Parcelable {
 
     private String mQuestion;
     private AnswerType mAnswerType;
+    private String mAnswer;
 
     public Question() {
     }
@@ -33,6 +34,14 @@ public class Question implements Parcelable {
         mAnswerType = answerType;
     }
 
+    public String getAnswer() {
+        return mAnswer;
+    }
+
+    public void setAnswer(String answer) {
+        this.mAnswer = answer;
+    }
+
     public enum AnswerType {
         DATE,
         DOUBLE,
@@ -42,6 +51,7 @@ public class Question implements Parcelable {
     protected Question(Parcel in) {
         mQuestion = in.readString();
         mAnswerType = (AnswerType) in.readValue(AnswerType.class.getClassLoader());
+        mAnswer = in.readString();
     }
 
     @Override
@@ -53,6 +63,7 @@ public class Question implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mQuestion);
         dest.writeValue(mAnswerType);
+        dest.writeString(mAnswer);
     }
 
     @SuppressWarnings("unused")

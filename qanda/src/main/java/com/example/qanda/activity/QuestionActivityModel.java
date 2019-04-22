@@ -12,12 +12,12 @@ public class QuestionActivityModel {
     public ObservableField<AnswerType> answerType = new ObservableField<>();
     public ObservableField<Integer> answerError = new ObservableField<>();
     public ObservableField<Boolean> prevButtonVisible = new ObservableField<>();
-    public ObservableField<Boolean> nextButtonVisible = new ObservableField<>();
+    public ObservableField<Integer> nextButtonText = new ObservableField<>();
 
-    public Boolean isAnswerValid() {
+    public Boolean isAnswerValid(Boolean showError) {
         String answerValue = answer.get();
         Boolean isAnswerValid = answerValue != null && !answerValue.isEmpty();
-        if (!isAnswerValid)
+        if (!isAnswerValid && showError)
             answerError.set(R.string.empty_answer_error);
         return isAnswerValid;
     }

@@ -3,6 +3,7 @@ package br.com.fitnesstracker.view.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -10,9 +11,11 @@ import com.example.qanda.utils.QAndA;
 import com.example.qanda.models.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -89,5 +92,18 @@ public class MainActivity extends AppCompatActivity {
         questions.add(question3);
 
         return questions;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == QAndA.QANDA_REQUEST_CODE &&
+                resultCode == RESULT_OK &&
+                data != null &&
+                data.hasExtra(QAndA.QUESTIONS_LIST)) {
+            ArrayList<Question> questions = data.getParcelableArrayListExtra(QAndA.QUESTIONS_LIST);
+            Log.i("","");
+        }
     }
 }
