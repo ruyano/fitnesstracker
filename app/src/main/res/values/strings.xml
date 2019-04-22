@@ -21,9 +21,35 @@
     <string name="signup_error">Não foi possível criar seu usuário agora, tente novamente mais tarde!</string>
     <string name="reset_password_error">Ops, ocorreu um erro, verifique se o email está correto e tente novamente!</string>
     <string name="reset_password_success">Foi enviado um email para resetar a senha</string>
+
     <string name="question_date">Data</string>
-    <string name="question_abdomen">Abdômen</string>
-    <string name="question_waist">Cintura</string>
+    <string name="question_neck">Pescoço</string>
+    <string name="question_shoulders">Ombros</string>
     <string name="question_breastplate">Peitoral</string>
+    <string name="question_waist">Cintura</string>
+    <string name="question_abdomen">Abdômen</string>
+    <string name="question_rightArm">Braço direito</string>
+    <string name="question_leftArm">Braço esquerdo</string>
+    <string name="question_rightLeg">Perna direita</string>
+    <string name="question_leftLeg">Perna esquerda</string>
+    <string name="question_rightCalf">Panturrilha direita</string>
+    <string name="question_leftCalf">Panturrilha esquerda</string>
+    <string name="question_weight">Peso</string>
+
+    <string-array name="fisical_avaliation_itens">
+        <item>@string/question_date</item>
+        <item>@string/question_neck</item>
+        <item>@string/question_shoulders</item>
+        <item>@string/question_breastplate</item>
+        <item>@string/question_waist</item>
+        <item>@string/question_abdomen</item>
+        <item>@string/question_rightArm</item>
+        <item>@string/question_leftArm</item>
+        <item>@string/question_rightLeg</item>
+        <item>@string/question_leftLeg</item>
+        <item>@string/question_rightCalf</item>
+        <item>@string/question_leftCalf</item>
+        <item>@string/question_weight</item>
+    </string-array>
 
 </resources>

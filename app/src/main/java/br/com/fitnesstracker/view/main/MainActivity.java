@@ -10,8 +10,8 @@ import android.view.View;
 import com.example.qanda.utils.QAndA;
 import com.example.qanda.models.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -23,6 +23,9 @@ import br.com.fitnesstracker.ChartsFragment;
 import br.com.fitnesstracker.ListFragment;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.SettingsFragment;
+import br.com.fitnesstracker.models.FisicalAvaliation;
+import br.com.fitnesstracker.repositories.answer.AnswerRepository;
+import br.com.fitnesstracker.repositories.answer.AnswerRepositoryImpl;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,17 +82,15 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Question> questsGenerator() {
         ArrayList<Question> questions = new ArrayList<>();
 
-        Question question = new Question(getString(R.string.question_date), Question.AnswerType.DATE);
-        questions.add(question);
-
-        Question question1 = new Question(getString(R.string.question_abdomen), Question.AnswerType.DOUBLE);
-        questions.add(question1);
-
-        Question question2 = new Question(getString(R.string.question_waist), Question.AnswerType.DOUBLE);
-        questions.add(question2);
-
-        Question question3 = new Question(getString(R.string.question_breastplate), Question.AnswerType.DOUBLE);
-        questions.add(question3);
+        String[] avaliationItens = getResources().getStringArray(R.array.fisical_avaliation_itens);
+        for (String iten : avaliationItens) {
+            Question.AnswerType answerType = Question.AnswerType.DOUBLE;
+            if (iten.equals(avaliationItens[0])) {
+                answerType = Question.AnswerType.DATE;
+            }
+            Question question = new Question(iten, answerType);
+            questions.add(question);
+        }
 
         return questions;
     }
@@ -103,7 +104,45 @@ public class MainActivity extends AppCompatActivity {
                 data != null &&
                 data.hasExtra(QAndA.QUESTIONS_LIST)) {
             ArrayList<Question> questions = data.getParcelableArrayListExtra(QAndA.QUESTIONS_LIST);
-            Log.i("","");
+            FisicalAvaliation fisicalAvaliation = getFisicalAvaliationObj(questions);
+            AnswerRepository answerRepository = new AnswerRepositoryImpl();
+            answerRepository.createAnswer(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
         }
     }
+
+    private FisicalAvaliation getFisicalAvaliationObj(ArrayList<Question> questions) {
+        FisicalAvaliation fisicalAvaliation = new FisicalAvaliation();
+        for (Question q : questions) {
+            if (q.getQuestion().equals(getString(R.string.question_date))) {
+                fisicalAvaliation.setDate(q.getAnswer());
+            } else if (q.getQuestion().equals(getString(R.string.question_neck))) {
+                fisicalAvaliation.setNeck(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_shoulders))) {
+                fisicalAvaliation.setShoulders(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_breastplate))) {
+                fisicalAvaliation.setBreastplate(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_waist))) {
+                fisicalAvaliation.setWaist(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_abdomen))) {
+                fisicalAvaliation.setAbdomen(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_rightArm))) {
+                fisicalAvaliation.setRightArm(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_leftArm))) {
+                fisicalAvaliation.setLeftArm(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_rightLeg))) {
+                fisicalAvaliation.setRightLeg(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_leftLeg))) {
+                fisicalAvaliation.setLeftLeg(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_rightCalf))) {
+                fisicalAvaliation.setRightCalf(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_leftCalf))) {
+                fisicalAvaliation.setLeftCalf(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(getString(R.string.question_weight))) {
+                fisicalAvaliation.setWeight(Double.valueOf(q.getAnswer()));
+            }
+        }
+
+        return fisicalAvaliation;
+    }
+
 }
