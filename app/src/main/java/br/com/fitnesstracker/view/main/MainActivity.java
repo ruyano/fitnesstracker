@@ -3,7 +3,6 @@ package br.com.fitnesstracker.view.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,12 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import br.com.fitnesstracker.ChartsFragment;
-import br.com.fitnesstracker.ListFragment;
+import br.com.fitnesstracker.view.list.ListFragment;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.SettingsFragment;
 import br.com.fitnesstracker.models.FisicalAvaliation;
-import br.com.fitnesstracker.repositories.answer.AnswerRepository;
-import br.com.fitnesstracker.repositories.answer.AnswerRepositoryImpl;
+import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRepository;
+import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRepositoryImpl;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -105,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 data.hasExtra(QAndA.QUESTIONS_LIST)) {
             ArrayList<Question> questions = data.getParcelableArrayListExtra(QAndA.QUESTIONS_LIST);
             FisicalAvaliation fisicalAvaliation = getFisicalAvaliationObj(questions);
-            AnswerRepository answerRepository = new AnswerRepositoryImpl();
-            answerRepository.createAnswer(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
+            FisicalAvaliationRepository fisicalAvaliationRepository = new FisicalAvaliationRepositoryImpl();
+            fisicalAvaliationRepository.createOrUpdateFisicalAvaliation(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
         }
     }
 

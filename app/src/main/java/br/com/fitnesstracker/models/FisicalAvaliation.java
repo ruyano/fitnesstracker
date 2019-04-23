@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class FisicalAvaliation {
 
+    private String firebaseKey;
     private String date;
     private Double neck;
     private Double shoulders;
@@ -19,6 +20,14 @@ public class FisicalAvaliation {
     private Double rightCalf;
     private Double leftCalf;
     private Double weight;
+
+    public String getFirebaseKey() {
+        return firebaseKey;
+    }
+
+    public void setFirebaseKey(String firebaseKey) {
+        this.firebaseKey = firebaseKey;
+    }
 
     public String getDate() {
         return date;
@@ -118,6 +127,10 @@ public class FisicalAvaliation {
 
     public Double getWeight() {
         return weight;
+    }
+
+    public String getWeightString() {
+        return String.valueOf(weight);
     }
 
     public void setWeight(Double weight) {

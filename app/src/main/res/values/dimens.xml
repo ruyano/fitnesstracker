@@ -10,4 +10,6 @@
     <dimen name="form_itens_separation">16dp</dimen>
     <dimen name="back_button_padding">10dp</dimen>
     <dimen name="progress_size">50dp</dimen>
+    <dimen name="list_item_card_margin">10dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
 </resources>
