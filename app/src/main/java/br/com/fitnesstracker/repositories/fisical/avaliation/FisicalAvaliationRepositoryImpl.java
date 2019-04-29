@@ -49,7 +49,7 @@ public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationReposit
 
     // R - Read
     @Override
-    public void getFisicalAvaliationList(String userId) {
+    public void readFisicalAvaliationForUser(String userId) {
         mDatabaseReference.child(ANSWERS_TABLE)
                 .child(userId)
                 .addValueEventListener(new ValueEventListener() {

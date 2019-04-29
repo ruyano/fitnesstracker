@@ -52,4 +52,47 @@
         <item>@string/question_weight</item>
     </string-array>
 
+    <string name="preference_date">preference_date</string>
+    <string name="preference_neck">preference_neck</string>
+    <string name="preference_shoulders">preference_shoulders</string>
+    <string name="preference_breastplate">preference_breastplate</string>
+    <string name="preference_waist">preference_waist</string>
+    <string name="preference_abdomen">preference_abdomen</string>
+    <string name="preference_rightArm">preference_rightArm</string>
+    <string name="preference_leftArm">preference_leftArm</string>
+    <string name="preference_rightLeg">preference_rightLeg</string>
+    <string name="preference_leftLeg">preference_leftLeg</string>
+    <string name="preference_rightCalf">preference_rightCalf</string>
+    <string name="preference_leftCalf">preference_leftCalf</string>
+    <string name="preference_weight">preference_weight</string>
+
+    <string-array name="preference_keys_array">
+        <item>@string/preference_date</item>
+        <item>@string/preference_neck</item>
+        <item>@string/preference_shoulders</item>
+        <item>@string/preference_breastplate</item>
+        <item>@string/preference_waist</item>
+        <item>@string/preference_abdomen</item>
+        <item>@string/preference_rightArm</item>
+        <item>@string/preference_leftArm</item>
+        <item>@string/preference_rightLeg</item>
+        <item>@string/preference_leftLeg</item>
+        <item>@string/preference_rightCalf</item>
+        <item>@string/preference_leftCalf</item>
+        <item>@string/preference_weight</item>
+    </string-array>
+
+    <string name="title_activity_menu">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="measures_header">Medidas para acompanhar</string>
+    <string name="user_header">Usuáio</string>
+
+    <!-- User Preferences -->
+    <string name="logout">Sair</string>
+
+    <!-- Measures Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
 </resources>

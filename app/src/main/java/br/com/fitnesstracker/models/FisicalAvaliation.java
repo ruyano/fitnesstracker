@@ -1,10 +1,13 @@
 package br.com.fitnesstracker.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.qanda.models.Question;
 
 import java.util.ArrayList;
 
-public class FisicalAvaliation {
+public class FisicalAvaliation implements Parcelable {
 
     private String firebaseKey;
     private String date;
@@ -20,6 +23,9 @@ public class FisicalAvaliation {
     private Double rightCalf;
     private Double leftCalf;
     private Double weight;
+
+    public FisicalAvaliation() {
+    }
 
     public String getFirebaseKey() {
         return firebaseKey;
@@ -140,4 +146,119 @@ public class FisicalAvaliation {
     public void FisicalAvaliation(ArrayList<Question> questions) {
 
     }
+
+    protected FisicalAvaliation(Parcel in) {
+        firebaseKey = in.readString();
+        date = in.readString();
+        neck = in.readByte() == 0x00 ? null : in.readDouble();
+        shoulders = in.readByte() == 0x00 ? null : in.readDouble();
+        breastplate = in.readByte() == 0x00 ? null : in.readDouble();
+        waist = in.readByte() == 0x00 ? null : in.readDouble();
+        abdomen = in.readByte() == 0x00 ? null : in.readDouble();
+        rightArm = in.readByte() == 0x00 ? null : in.readDouble();
+        leftArm = in.readByte() == 0x00 ? null : in.readDouble();
+        rightLeg = in.readByte() == 0x00 ? null : in.readDouble();
+        leftLeg = in.readByte() == 0x00 ? null : in.readDouble();
+        rightCalf = in.readByte() == 0x00 ? null : in.readDouble();
+        leftCalf = in.readByte() == 0x00 ? null : in.readDouble();
+        weight = in.readByte() == 0x00 ? null : in.readDouble();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firebaseKey);
+        dest.writeString(date);
+        if (neck == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(neck);
+        }
+        if (shoulders == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(shoulders);
+        }
+        if (breastplate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(breastplate);
+        }
+        if (waist == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(waist);
+        }
+        if (abdomen == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(abdomen);
+        }
+        if (rightArm == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(rightArm);
+        }
+        if (leftArm == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(leftArm);
+        }
+        if (rightLeg == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(rightLeg);
+        }
+        if (leftLeg == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(leftLeg);
+        }
+        if (rightCalf == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(rightCalf);
+        }
+        if (leftCalf == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(leftCalf);
+        }
+        if (weight == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(weight);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<FisicalAvaliation> CREATOR = new Parcelable.Creator<FisicalAvaliation>() {
+        @Override
+        public FisicalAvaliation createFromParcel(Parcel in) {
+            return new FisicalAvaliation(in);
+        }
+
+        @Override
+        public FisicalAvaliation[] newArray(int size) {
+            return new FisicalAvaliation[size];
+        }
+    };
+
+
 }

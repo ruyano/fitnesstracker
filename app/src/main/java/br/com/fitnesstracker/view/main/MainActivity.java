@@ -3,6 +3,7 @@ package br.com.fitnesstracker.view.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import br.com.fitnesstracker.ChartsFragment;
+import br.com.fitnesstracker.QuestionsUtil;
 import br.com.fitnesstracker.view.list.ListFragment;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.SettingsFragment;
@@ -75,23 +77,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startQAndA(View view) {
-        QAndA.startQAndA(this, questsGenerator());
-    }
-
-    private ArrayList<Question> questsGenerator() {
-        ArrayList<Question> questions = new ArrayList<>();
-
-        String[] avaliationItens = getResources().getStringArray(R.array.fisical_avaliation_itens);
-        for (String iten : avaliationItens) {
-            Question.AnswerType answerType = Question.AnswerType.DOUBLE;
-            if (iten.equals(avaliationItens[0])) {
-                answerType = Question.AnswerType.DATE;
-            }
-            Question question = new Question(iten, answerType);
-            questions.add(question);
-        }
-
-        return questions;
+        QuestionsUtil questionsUtil = new QuestionsUtil(PreferenceManager.getDefaultSharedPreferences(this), getResources());
+        QAndA.startQAndA(this, questionsUtil.getQuestionsArray());
     }
 
     @Override

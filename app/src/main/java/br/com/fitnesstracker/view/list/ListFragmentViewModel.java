@@ -38,7 +38,7 @@ public class ListFragmentViewModel extends ViewModel {
     }
 
     public void getList() {
-        mRepository.getFisicalAvaliationList(FirebaseAuth.getInstance().getUid());
+        mRepository.readFisicalAvaliationForUser(FirebaseAuth.getInstance().getUid());
     }
 
     public MutableLiveData<ArrayList<FisicalAvaliation>> getFisicalAvaliationListLiveData() {
