@@ -7,7 +7,7 @@
             android:name=".activity.QuestionActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"/>
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

@@ -54,7 +54,7 @@
                 android:layout_height="40dp"
                 android:padding="10dp"
                 android:src="@drawable/ic_delete"
-                android:onClick="@{() -> viewModel.deleteFisicalAvaliation(position)}"
+                android:onClick="@{() -> viewModel.requestToDeleteFisicalAvaliation(position)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

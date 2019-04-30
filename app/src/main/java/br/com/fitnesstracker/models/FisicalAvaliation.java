@@ -1,11 +1,14 @@
 package br.com.fitnesstracker.models;
 
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.qanda.models.Question;
 
 import java.util.ArrayList;
+
+import br.com.fitnesstracker.R;
 
 public class FisicalAvaliation implements Parcelable {
 
@@ -259,6 +262,38 @@ public class FisicalAvaliation implements Parcelable {
             return new FisicalAvaliation[size];
         }
     };
+
+    public String getValueFromPreferenceKey(String preferenceKey, Resources resources) {
+
+        if (preferenceKey.equals(resources.getString(R.string.preference_date))) {
+            return date;
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_neck))) {
+            return String.valueOf(neck);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_shoulders))) {
+            return String.valueOf(shoulders);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_breastplate))) {
+            return String.valueOf(breastplate);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_waist))) {
+            return String.valueOf(waist);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_abdomen))) {
+            return String.valueOf(abdomen);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_rightArm))) {
+            return String.valueOf(rightArm);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_leftArm))) {
+            return String.valueOf(leftArm);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_rightLeg))) {
+            return String.valueOf(rightLeg);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_leftLeg))) {
+            return String.valueOf(leftLeg);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_rightCalf))) {
+            return String.valueOf(rightCalf);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_leftCalf))) {
+            return String.valueOf(leftCalf);
+        } else if (preferenceKey.equals(resources.getString(R.string.preference_weight))) {
+            return String.valueOf(weight);
+        }
+        return null;
+    }
 
 
 }

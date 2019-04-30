@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import br.com.fitnesstracker.R;
+import br.com.fitnesstracker.models.FisicalAvaliation;
 
 public class QuestionsUtil {
 
@@ -58,5 +59,29 @@ public class QuestionsUtil {
 
         return map;
     }
+
+    public ArrayList<Question> getQuestionsArray(FisicalAvaliation fisicalAvaliations) {
+        ArrayList<Question> questions = new ArrayList<>();
+
+        LinkedHashMap<String, String> questionsItens = getPreferencesMap();
+
+        for (Map.Entry<String, String> iten : questionsItens.entrySet()) {
+            String question = iten.getKey();
+            String preferenceKey = iten.getValue();
+
+            if (isTrakingKey(preferenceKey)) {
+                Question.AnswerType answerType = Question.AnswerType.DOUBLE;
+                if (question.equals(mResources.getString(R.string.question_date))) {
+                    answerType = Question.AnswerType.DATE;
+                }
+                Question questionObj = new Question(question,
+                        answerType,
+                        fisicalAvaliations.getValueFromPreferenceKey(preferenceKey, mResources));
+                questions.add(questionObj);
+            }
+        }
+        return questions;
+    }
+
 
 }

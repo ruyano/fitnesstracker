@@ -17,11 +17,15 @@ public class ListFragmentViewModel extends ViewModel {
     private MutableLiveData<ArrayList<FisicalAvaliation>> mFisicalAvaliations;
     private FisicalAvaliationListAdapter mAdapter;
     private FisicalAvaliationRepository mRepository;
+    private MutableLiveData<FisicalAvaliation> mEditButtonLiveData;
+    private MutableLiveData<FisicalAvaliation> mDeleteButtonLiveData;
 
     public void init() {
         mFisicalAvaliations = new MutableLiveData<>();
         mAdapter = new FisicalAvaliationListAdapter(this);
         mRepository = new FisicalAvaliationRepositoryImpl();
+        mEditButtonLiveData = new MutableLiveData<>();
+        mDeleteButtonLiveData = new MutableLiveData<>();
     }
 
     public RecyclerView.Adapter getAdapter() {
@@ -41,6 +45,14 @@ public class ListFragmentViewModel extends ViewModel {
         mRepository.readFisicalAvaliationForUser(FirebaseAuth.getInstance().getUid());
     }
 
+    public MutableLiveData<FisicalAvaliation> getDeleteButtonLiveData() {
+        return mDeleteButtonLiveData;
+    }
+
+    public MutableLiveData<FisicalAvaliation> getEditButtonLiveData() {
+        return mEditButtonLiveData;
+    }
+
     public MutableLiveData<ArrayList<FisicalAvaliation>> getFisicalAvaliationListLiveData() {
         return mRepository.getFisicalAvaliationListLiveData();
     }
@@ -55,17 +67,20 @@ public class ListFragmentViewModel extends ViewModel {
 
     }
 
-    public void deleteFisicalAvaliation(Integer position) {
-        // TODO - dialog de confirmação
-        FisicalAvaliation fisicalAvaliation = getFisicalAvaliationAtPosition(position);
+    public void deleteFisicalAvaliation(FisicalAvaliation fisicalAvaliation) {
+        mFisicalAvaliations.getValue().remove(fisicalAvaliation);
+        mAdapter.notifyDataSetChanged();
         mRepository.deleteFisicalAvaliation(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
     }
 
-    public void updateFisicalAvaliation(Integer position) {
-        // TODO - abrir QAndA novamente e chamar o update quando terminar de editar;
+    public void requestToDeleteFisicalAvaliation(Integer position) {
         FisicalAvaliation fisicalAvaliation = getFisicalAvaliationAtPosition(position);
-        fisicalAvaliation.setDate("21/21/2121");
-        mRepository.updateFisicalAvaliation(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
+        mDeleteButtonLiveData.postValue(fisicalAvaliation);
+    }
+
+    public void updateFisicalAvaliation(Integer position) {
+        FisicalAvaliation fisicalAvaliation = getFisicalAvaliationAtPosition(position);
+        mEditButtonLiveData.postValue(fisicalAvaliation);
     }
 
 }

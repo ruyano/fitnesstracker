@@ -2,6 +2,8 @@ package com.example.qanda.utils;
 
 import android.app.Activity;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.qanda.models.Question;
 import com.example.qanda.activity.QuestionActivity;
 
@@ -14,6 +16,10 @@ public class QAndA {
 
     public static void startQAndA(Activity activity, ArrayList<Question> questions) {
         QuestionActivity.startQAndA(activity, questions);
+    }
+
+    public static void startQAndA(Fragment fragment, ArrayList<Question> questions) {
+        QuestionActivity.startQAndA(fragment, questions);
     }
 
 }

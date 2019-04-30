@@ -18,6 +18,12 @@ public class Question implements Parcelable {
         this.mAnswerType = answerType;
     }
 
+    public Question(String question, AnswerType answerType, String answer) {
+        this.mQuestion = question;
+        this.mAnswerType = answerType;
+        this.mAnswer = answer;
+    }
+
     public String getQuestion() {
         return mQuestion;
     }

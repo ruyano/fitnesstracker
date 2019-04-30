@@ -1,5 +1,7 @@
 package br.com.fitnesstracker.view.list;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,20 +14,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.FragmentListBinding;
 import br.com.fitnesstracker.models.FisicalAvaliation;
+import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRepository;
+import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRepositoryImpl;
+import br.com.fitnesstracker.util.AppUtil;
+import br.com.fitnesstracker.util.QuestionsUtil;
 
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.qanda.models.Question;
+import com.example.qanda.utils.QAndA;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ListFragment extends Fragment {
 
     private static final String RECYCLERVIEW_SAVED_STATE = "RECYCLERVIEW_SAVED_STATE";
     private FragmentListBinding mFragmentListBinding;
     private ListFragmentViewModel mViewModel;
+    private FisicalAvaliation mEditingFisicalAvaliation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +58,38 @@ public class ListFragment extends Fragment {
         setupRecyclerView();
         setupListObserver();
         mViewModel.getList();
+
+        setupEditButton();
+
+        mViewModel.getDeleteButtonLiveData().observe(this, new Observer<FisicalAvaliation>() {
+            @Override
+            public void onChanged(final FisicalAvaliation fisicalAvaliation) {
+                AppUtil.showAlertDialog(getContext(),
+                        "Atenção",
+                        "Dejesa mesmo deletetar a avaliação de " + fisicalAvaliation.getDate(),
+                        "sim",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mViewModel.deleteFisicalAvaliation(fisicalAvaliation);
+                            }
+                        },
+                        "não",
+                        null);
+            }
+        });
+    }
+
+    private void setupEditButton() {
+        mViewModel.getEditButtonLiveData().observe(this, new Observer<FisicalAvaliation>() {
+            @Override
+            public void onChanged(FisicalAvaliation fisicalAvaliation) {
+                mEditingFisicalAvaliation = fisicalAvaliation;
+                QuestionsUtil questionsUtil = new QuestionsUtil(PreferenceManager
+                        .getDefaultSharedPreferences(getContext()), getResources());
+                QAndA.startQAndA(ListFragment.this, questionsUtil.getQuestionsArray(fisicalAvaliation));
+            }
+        });
     }
 
     private void setupListObserver() {
@@ -80,4 +126,20 @@ public class ListFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == QAndA.QANDA_REQUEST_CODE &&
+                resultCode == RESULT_OK &&
+                data != null &&
+                data.hasExtra(QAndA.QUESTIONS_LIST)) {
+            ArrayList<Question> questions = data.getParcelableArrayListExtra(QAndA.QUESTIONS_LIST);
+            FisicalAvaliation fisicalAvaliation = AppUtil.getFisicalAvaliationObj(getContext(), questions);
+            if (mEditingFisicalAvaliation != null)
+                fisicalAvaliation.setFirebaseKey(mEditingFisicalAvaliation.getFirebaseKey());
+            FisicalAvaliationRepository fisicalAvaliationRepository = new FisicalAvaliationRepositoryImpl();
+            fisicalAvaliationRepository.createOrUpdateFisicalAvaliation(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
+        }
+    }
 }

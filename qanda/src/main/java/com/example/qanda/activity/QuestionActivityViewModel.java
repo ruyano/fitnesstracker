@@ -2,8 +2,10 @@ package com.example.qanda.activity;
 
 import com.example.qanda.R;
 import com.example.qanda.models.Question;
+import com.example.qanda.utils.QandAUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,10 +15,12 @@ public class QuestionActivityViewModel extends ViewModel {
     private QuestionActivityModel mModel;
     private ArrayList<Question> mQuestions;
     private Integer mCurrentQuestionPosition;
-    private MutableLiveData<Boolean> finishActivityObserver;
+    private MutableLiveData<Boolean> cancelQAndA;
+    private MutableLiveData<Boolean> completeQAndA;
 
     public void init(ArrayList<Question> questions) {
-        finishActivityObserver = new MutableLiveData<>();
+        cancelQAndA = new MutableLiveData<>();
+        completeQAndA = new MutableLiveData<>();
         mQuestions = questions;
         mCurrentQuestionPosition = 0;
         mModel = new QuestionActivityModel();
@@ -36,7 +40,13 @@ public class QuestionActivityViewModel extends ViewModel {
         mModel.answerError.set(null);
         mModel.question.set(currentQuestion.getQuestion());
         mModel.answerType.set(currentQuestion.getAnswerType());
-        mModel.answer.set(currentQuestion.getAnswer());
+
+        if (currentQuestion.getAnswerType() == Question.AnswerType.DATE
+                && currentQuestion.getAnswer() == null) {
+            mModel.answer.set(QandAUtils.getStringFromCalendar(Calendar.getInstance()));
+        } else {
+            mModel.answer.set(currentQuestion.getAnswer());
+        }
     }
 
     public void prevBtnClick() {
@@ -53,7 +63,7 @@ public class QuestionActivityViewModel extends ViewModel {
         if (mModel.isAnswerValid(true)) {
             mQuestions.get(mCurrentQuestionPosition).setAnswer(mModel.answer.get());
             if (mCurrentQuestionPosition == mQuestions.size() -1) {
-                finish();
+                completeQAndA();
                 return;
             }
             if (mCurrentQuestionPosition < mQuestions.size() - 1) {
@@ -69,12 +79,19 @@ public class QuestionActivityViewModel extends ViewModel {
             prevBtnClick();
             return;
         }
-        finish();
+
+
+        cancelQAndA();
     }
 
-    private void finish() {
-        finishActivityObserver.setValue(finishActivityObserver.getValue() == null ||
-                !finishActivityObserver.getValue());
+    private void cancelQAndA() {
+        cancelQAndA.setValue(cancelQAndA.getValue() == null ||
+                !cancelQAndA.getValue());
+    }
+
+    private void completeQAndA() {
+        completeQAndA.setValue(completeQAndA.getValue() == null ||
+                !completeQAndA.getValue());
     }
 
     public Boolean hasFinishedQAndA() {
@@ -102,7 +119,11 @@ public class QuestionActivityViewModel extends ViewModel {
         mModel.nextButtonText.set(R.string.next);
     }
 
-    public MutableLiveData<Boolean> getFinishActivityObserver() {
-        return finishActivityObserver;
+    public MutableLiveData<Boolean> getCancelQAndA() {
+        return cancelQAndA;
+    }
+
+    public MutableLiveData<Boolean> getCompleteQAndA() {
+        return completeQAndA;
     }
 }

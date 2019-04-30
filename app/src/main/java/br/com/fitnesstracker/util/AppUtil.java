@@ -1,6 +1,8 @@
 package br.com.fitnesstracker.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -55,6 +57,21 @@ public class AppUtil {
         }
 
         return fisicalAvaliation;
+    }
+
+    public static void showAlertDialog(Context context,
+                                       String title,
+                                       String message,
+                                       String positiveButtonTitle,
+                                       DialogInterface.OnClickListener positiveButtonListener,
+                                       String negativeButtonTitle,
+                                       DialogInterface.OnClickListener negativeButtonListener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positiveButtonTitle, positiveButtonListener);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negativeButtonTitle, negativeButtonListener);
+        alertDialog.show();
     }
 
 }

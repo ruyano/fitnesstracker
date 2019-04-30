@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">QAndA</string>
     <string name="title_activity_question">QuestionActivity</string>
-    <string name="empty_answer_error">A resposta não pode ser vazia!</string>
+    <string name="invalid_answer_error">Valor inválido!</string>
     <string name="next">Próxima</string>
     <string name="previous">Anterior</string>
     <string name="finish">Finalizar</string>
+    <string name="atention">Atenção</string>
+    <string name="back_button_message">Ao sair perderá as respostas digitadas até então, deseja continuar mesmo assim?</string>
+    <string name="yes">sim</string>
+    <string name="no">não</string>
 </resources>

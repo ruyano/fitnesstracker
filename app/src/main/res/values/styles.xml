@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/loginTextColor</item>
+        <item name="colorControlActivated">@color/loginTextColor</item>
+        <item name="colorControlHighlight">@color/loginTextColor</item>
+        <item name="android:textColorHint">@color/loginTextColor</item>
+        <item name="android:textColor">@color/loginTextColor</item>
     </style>
 
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

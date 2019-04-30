@@ -16,9 +16,9 @@ public class QuestionActivityModel {
 
     public Boolean isAnswerValid(Boolean showError) {
         String answerValue = answer.get();
-        Boolean isAnswerValid = answerValue != null && !answerValue.isEmpty();
+        Boolean isAnswerValid = answerValue != null && !answerValue.isEmpty() && !answerValue.equals("0.00");
         if (!isAnswerValid && showError)
-            answerError.set(R.string.empty_answer_error);
+            answerError.set(R.string.invalid_answer_error);
         return isAnswerValid;
     }
 

@@ -1,6 +1,7 @@
 package com.example.qanda.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,11 +9,13 @@ import com.example.qanda.utils.QAndA;
 import com.example.qanda.models.Question;
 import com.example.qanda.R;
 import com.example.qanda.databinding.ActivityQuestionBinding;
+import com.example.qanda.utils.QandAUtils;
 
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -24,6 +27,12 @@ public class QuestionActivity extends AppCompatActivity {
         Intent intent = new Intent(activity, QuestionActivity.class);
         intent.putParcelableArrayListExtra(QUESTIONS_LIST, questions);
         activity.startActivityForResult(intent, QAndA.QANDA_REQUEST_CODE);
+    }
+
+    public static void startQAndA(Fragment fragment, ArrayList<Question> questions) {
+        Intent intent = new Intent(fragment.getActivity(), QuestionActivity.class);
+        intent.putParcelableArrayListExtra(QUESTIONS_LIST, questions);
+        fragment.startActivityForResult(intent, QAndA.QANDA_REQUEST_CODE);
     }
 
     private QuestionActivityViewModel mViewModel;
@@ -45,7 +54,26 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void setupOnBackPressedObserver() {
-        mViewModel.getFinishActivityObserver().observe(this, new Observer<Boolean>() {
+        mViewModel.getCancelQAndA().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                QandAUtils.showAlertDialog(QuestionActivity.this,
+                        getString(R.string.atention),
+                        getString(R.string.back_button_message),
+                        getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setResultForActivity();
+                                finish();
+                            }
+                        },
+                        getString(R.string.no),
+                        null);
+            }
+        });
+
+        mViewModel.getCompleteQAndA().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 setResultForActivity();
