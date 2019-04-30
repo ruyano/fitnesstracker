@@ -4,6 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.qanda.models.Question;
+
+import java.util.ArrayList;
+
+import br.com.fitnesstracker.R;
+import br.com.fitnesstracker.models.FisicalAvaliation;
+
 public class AppUtil {
 
     public static void hideKeyboard(View view) {
@@ -13,6 +20,41 @@ public class AppUtil {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public static FisicalAvaliation getFisicalAvaliationObj(Context context, ArrayList<Question> questions) {
+        FisicalAvaliation fisicalAvaliation = new FisicalAvaliation();
+        for (Question q : questions) {
+            if (q.getQuestion().equals(context.getString(R.string.question_date))) {
+                fisicalAvaliation.setDate(q.getAnswer());
+            } else if (q.getQuestion().equals(context.getString(R.string.question_neck))) {
+                fisicalAvaliation.setNeck(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_shoulders))) {
+                fisicalAvaliation.setShoulders(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_breastplate))) {
+                fisicalAvaliation.setBreastplate(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_waist))) {
+                fisicalAvaliation.setWaist(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_abdomen))) {
+                fisicalAvaliation.setAbdomen(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_rightArm))) {
+                fisicalAvaliation.setRightArm(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_leftArm))) {
+                fisicalAvaliation.setLeftArm(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_rightLeg))) {
+                fisicalAvaliation.setRightLeg(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_leftLeg))) {
+                fisicalAvaliation.setLeftLeg(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_rightCalf))) {
+                fisicalAvaliation.setRightCalf(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_leftCalf))) {
+                fisicalAvaliation.setLeftCalf(Double.valueOf(q.getAnswer()));
+            } else if (q.getQuestion().equals(context.getString(R.string.question_weight))) {
+                fisicalAvaliation.setWeight(Double.valueOf(q.getAnswer()));
+            }
+        }
+
+        return fisicalAvaliation;
     }
 
 }

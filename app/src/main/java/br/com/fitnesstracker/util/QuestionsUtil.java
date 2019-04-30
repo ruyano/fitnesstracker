@@ -1,4 +1,4 @@
-package br.com.fitnesstracker;
+package br.com.fitnesstracker.util;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import com.example.qanda.models.Question;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import br.com.fitnesstracker.R;
 
 public class QuestionsUtil {
 
@@ -26,7 +28,7 @@ public class QuestionsUtil {
     public ArrayList<Question> getQuestionsArray() {
         ArrayList<Question> questions = new ArrayList<>();
 
-        HashMap<String, String> questionsItens = getPreferencesMap();
+        LinkedHashMap<String, String> questionsItens = getPreferencesMap();
 
         for (Map.Entry<String, String> iten : questionsItens.entrySet()) {
             String question = iten.getKey();
@@ -44,8 +46,8 @@ public class QuestionsUtil {
         return questions;
     }
 
-    private HashMap<String, String> getPreferencesMap() {
-        HashMap<String, String> map = new HashMap<String, String>();
+    private LinkedHashMap<String, String> getPreferencesMap() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         String[] avaliationItens = mResources.getStringArray(R.array.fisical_avaliation_itens);
         String[] preferencesKeys = mResources.getStringArray(R.array.preference_keys_array);

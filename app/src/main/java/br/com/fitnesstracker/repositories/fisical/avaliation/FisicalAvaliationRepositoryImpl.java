@@ -17,7 +17,7 @@ import br.com.fitnesstracker.models.FisicalAvaliation;
 
 public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationRepository {
 
-    private static final String ANSWERS_TABLE = "answers";
+    private static final String FISICAL_AVALIATION_TABLE = "fisical_avaliations";
 
     private DatabaseReference mDatabaseReference;
 
@@ -30,9 +30,9 @@ public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationReposit
     // C - Create
     @Override
     public void createFisicalAvaliation(String userId, FisicalAvaliation fisicalAvaliation) {
-        String key = mDatabaseReference.child(ANSWERS_TABLE).push().getKey();
+        String key = mDatabaseReference.child(FISICAL_AVALIATION_TABLE).push().getKey();
         fisicalAvaliation.setFirebaseKey(key);
-        mDatabaseReference.child(ANSWERS_TABLE)
+        mDatabaseReference.child(FISICAL_AVALIATION_TABLE)
                 .child(userId)
                 .child(key == null ? "" : key)
                 .setValue(fisicalAvaliation);
@@ -50,7 +50,7 @@ public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationReposit
     // R - Read
     @Override
     public void readFisicalAvaliationForUser(String userId) {
-        mDatabaseReference.child(ANSWERS_TABLE)
+        mDatabaseReference.child(FISICAL_AVALIATION_TABLE)
                 .child(userId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -83,7 +83,7 @@ public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationReposit
         Map<String, Object> fisicalAvaliationUpdate = new HashMap<>();
         fisicalAvaliationUpdate.put(fisicalAvaliation.getFirebaseKey(), fisicalAvaliation);
 
-        mDatabaseReference.child(ANSWERS_TABLE)
+        mDatabaseReference.child(FISICAL_AVALIATION_TABLE)
                 .child(userId)
                 .updateChildren(fisicalAvaliationUpdate);
     }
@@ -91,7 +91,7 @@ public class FisicalAvaliationRepositoryImpl implements FisicalAvaliationReposit
     // D - Delete
     @Override
     public void deleteFisicalAvaliation(String userId, FisicalAvaliation fisicalAvaliation) {
-        mDatabaseReference.child(ANSWERS_TABLE)
+        mDatabaseReference.child(FISICAL_AVALIATION_TABLE)
                 .child(userId)
                 .child(fisicalAvaliation.getFirebaseKey())
                 .removeValue();

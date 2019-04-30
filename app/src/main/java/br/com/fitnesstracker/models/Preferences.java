@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Preferences implements Parcelable {
 
-    private String firebaseKey;
+    private String firebaseUserId;
     private Boolean neck;
     private Boolean shoulders;
     private Boolean breastplate;
@@ -22,7 +22,7 @@ public class Preferences implements Parcelable {
     public Preferences() {
     }
 
-    public Preferences(String firebaseKey,
+    public Preferences(String firebaseUserId,
                        Boolean neck,
                        Boolean shoulders,
                        Boolean breastplate,
@@ -35,7 +35,7 @@ public class Preferences implements Parcelable {
                        Boolean rightCalf,
                        Boolean leftCalf,
                        Boolean weight) {
-        this.firebaseKey = firebaseKey;
+        this.firebaseUserId = firebaseUserId;
         this.neck = neck;
         this.shoulders = shoulders;
         this.breastplate = breastplate;
@@ -50,12 +50,12 @@ public class Preferences implements Parcelable {
         this.weight = weight;
     }
 
-    public String getFirebaseKey() {
-        return firebaseKey;
+    public String getFirebaseUserId() {
+        return firebaseUserId;
     }
 
-    public void setFirebaseKey(String firebaseKey) {
-        this.firebaseKey = firebaseKey;
+    public void setFirebaseUserId(String firebaseUserId) {
+        this.firebaseUserId = firebaseUserId;
     }
 
     public Boolean getNeck() {
@@ -155,7 +155,7 @@ public class Preferences implements Parcelable {
     }
 
     protected Preferences(Parcel in) {
-        firebaseKey = in.readString();
+        firebaseUserId = in.readString();
         byte neckVal = in.readByte();
         neck = neckVal == 0x02 ? null : neckVal != 0x00;
         byte shouldersVal = in.readByte();
@@ -189,7 +189,7 @@ public class Preferences implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(firebaseKey);
+        dest.writeString(firebaseUserId);
         if (neck == null) {
             dest.writeByte((byte) (0x02));
         } else {

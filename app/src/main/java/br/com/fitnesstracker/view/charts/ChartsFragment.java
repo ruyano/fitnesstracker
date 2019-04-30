@@ -1,14 +1,13 @@
-package br.com.fitnesstracker;
+package br.com.fitnesstracker.view.charts;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import br.com.fitnesstracker.R;
 
 
 public class ChartsFragment extends Fragment {

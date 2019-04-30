@@ -29,12 +29,19 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
     // C - Create
     @Override
     public void createPreferences(String userId, Preferences preference) {
-        String key = mDatabaseReference.child(PREFERENCES_TABLE).push().getKey();
-        preference.setFirebaseKey(key);
+        preference.setFirebaseUserId(userId);
         mDatabaseReference.child(PREFERENCES_TABLE)
                 .child(userId)
-                .child(key == null ? "" : key)
                 .setValue(preference);
+    }
+
+    @Override
+    public void createOrUpdatePreferences(String userId, Preferences preferences) {
+        if (preferences.getFirebaseUserId() == null) {
+            createPreferences(userId, preferences);
+        } else {
+            updatePreferences(userId, preferences);
+        }
     }
 
     // R - Read
@@ -47,8 +54,7 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (mPreferences == null)
                             return;
-                        DataSnapshot ds = dataSnapshot.getChildren().iterator().next();
-                        Preferences preferences = ds.getValue(Preferences.class);
+                        Preferences preferences = dataSnapshot.getValue(Preferences.class);
                         mPreferences.postValue(preferences);
                     }
 
@@ -69,10 +75,9 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
     @Override
     public void updatePreferences(String userId, Preferences preference) {
         Map<String, Object> preferencesUpdate = new HashMap<>();
-        preferencesUpdate.put(preference.getFirebaseKey(), preference);
+        preferencesUpdate.put(userId, preference);
 
         mDatabaseReference.child(PREFERENCES_TABLE)
-                .child(userId)
                 .updateChildren(preferencesUpdate);
     }
 
@@ -81,7 +86,7 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
     public void deletePreferences(String userId, Preferences preference) {
         mDatabaseReference.child(PREFERENCES_TABLE)
                 .child(userId)
-                .child(preference.getFirebaseKey())
+                .child(preference.getFirebaseUserId())
                 .removeValue();
     }
 }
