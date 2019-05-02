@@ -26,15 +26,25 @@ public class QuestionsUtil {
         return mPreferenceManager.getBoolean(key, true);
     }
 
-    public ArrayList<Question> getQuestionsArray() {
-        ArrayList<Question> questions = new ArrayList<>();
-
+    public ArrayList<String> getQuestionsStringArrayForSpinner() {
+        ArrayList<String> questions = new ArrayList<>();
         LinkedHashMap<String, String> questionsItens = getPreferencesMap();
-
         for (Map.Entry<String, String> iten : questionsItens.entrySet()) {
             String question = iten.getKey();
             String preferenceKey = iten.getValue();
+            if (isTrakingKey(preferenceKey) && !question.equals(mResources.getString(R.string.question_date))) {
+                questions.add(question);
+            }
+        }
+        return questions;
+    }
 
+    public ArrayList<Question> getQuestionsArray() {
+        ArrayList<Question> questions = new ArrayList<>();
+        LinkedHashMap<String, String> questionsItens = getPreferencesMap();
+        for (Map.Entry<String, String> iten : questionsItens.entrySet()) {
+            String question = iten.getKey();
+            String preferenceKey = iten.getValue();
             if (isTrakingKey(preferenceKey)) {
                 Question.AnswerType answerType = Question.AnswerType.DOUBLE;
                 if (question.equals(mResources.getString(R.string.question_date))) {
@@ -49,26 +59,20 @@ public class QuestionsUtil {
 
     private LinkedHashMap<String, String> getPreferencesMap() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-
         String[] avaliationItens = mResources.getStringArray(R.array.fisical_avaliation_itens);
         String[] preferencesKeys = mResources.getStringArray(R.array.preference_keys_array);
-
         for (int i = 0; i<avaliationItens.length; i++) {
             map.put(avaliationItens[i], preferencesKeys[i]);
         }
-
         return map;
     }
 
     public ArrayList<Question> getQuestionsArray(FisicalAvaliation fisicalAvaliations) {
         ArrayList<Question> questions = new ArrayList<>();
-
         LinkedHashMap<String, String> questionsItens = getPreferencesMap();
-
         for (Map.Entry<String, String> iten : questionsItens.entrySet()) {
             String question = iten.getKey();
             String preferenceKey = iten.getValue();
-
             if (isTrakingKey(preferenceKey)) {
                 Question.AnswerType answerType = Question.AnswerType.DOUBLE;
                 if (question.equals(mResources.getString(R.string.question_date))) {
@@ -82,6 +86,5 @@ public class QuestionsUtil {
         }
         return questions;
     }
-
 
 }

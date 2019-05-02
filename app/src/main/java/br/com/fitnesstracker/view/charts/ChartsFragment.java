@@ -1,101 +1,97 @@
 package br.com.fitnesstracker.view.charts;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
 
 import br.com.fitnesstracker.R;
+import br.com.fitnesstracker.databinding.FragmentChartsBinding;
+import br.com.fitnesstracker.models.FisicalAvaliation;
+import br.com.fitnesstracker.util.QuestionsUtil;
 
+public class ChartsFragment extends Fragment
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-public class ChartsFragment extends Fragment {
-//    // TODO: Rename parameter arguments, choose names that match
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-//
-//    private OnFragmentInteractionListener mListener;
-//
-//    public ChartsFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    /**
-//     * Use this factory method to create a new instance of
-//     * this fragment using the provided parameters.
-//     *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
-//     * @return A new instance of fragment ChartsFragment.
-//     */
-//    // TODO: Rename and change types and number of parameters
-//    public static ChartsFragment newInstance(String param1, String param2) {
-//        ChartsFragment fragment = new ChartsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
+    private FragmentChartsBinding mFragmentChartsBinding;
+    private ChartsFragmentViewModel mViewModel;
+    private QuestionsUtil mQuestionsUtil;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_charts, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mFragmentChartsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_charts, container, false);
+        mQuestionsUtil = new QuestionsUtil(PreferenceManager.getDefaultSharedPreferences(getContext()), getResources());
+        setupViewModel(savedInstanceState);
+        return mFragmentChartsBinding.getRoot();
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        androidx.preference.PreferenceManager.getDefaultSharedPreferences(getContext())
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        androidx.preference.PreferenceManager.getDefaultSharedPreferences(getContext())
+                .unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
+    }
+
+    private void setupViewModel(Bundle savedInstanceState) {
+        mViewModel = ViewModelProviders.of(this).get(ChartsFragmentViewModel.class);
+        if (savedInstanceState == null)
+            mViewModel.init();
+        mFragmentChartsBinding.setViewModel(mViewModel);
+
+        mViewModel.setSpinnerEntries(mQuestionsUtil.getQuestionsStringArrayForSpinner());
+
+        setupListObserver();
+        mViewModel.getList();
+    }
+
+    private void setupListObserver() {
+        mViewModel.getFisicalAvaliationListLiveData().observe(this, new Observer<ArrayList<FisicalAvaliation>>() {
+            @Override
+            public void onChanged(ArrayList<FisicalAvaliation> fisicalAvaliations) {
+                mViewModel.hideLoading();
+                updateChart(fisicalAvaliations);
+            }
+        });
+    }
+
+    private void updateChart(ArrayList<FisicalAvaliation> fisicalAvaliations) {
+        ArrayList<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < fisicalAvaliations.size(); i++) {
+            // TODO - validar null
+            Float peso = Float.valueOf(String.valueOf(fisicalAvaliations.get(i).getValueByQuestion(getContext(), getString(R.string.question_leftCalf))));
+            entries.add(new Entry(i, peso));
+        }
+        LineDataSet dataSet = new LineDataSet(entries, null);
+        dataSet.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        dataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        LineData data = new LineData(dataSet);
+        mFragmentChartsBinding.chart.setData(data);
+        mFragmentChartsBinding.chart.invalidate();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        mViewModel.setSpinnerEntries(mQuestionsUtil.getQuestionsStringArrayForSpinner());
+    }
 }

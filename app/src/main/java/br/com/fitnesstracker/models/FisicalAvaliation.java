@@ -1,5 +1,6 @@
 package br.com.fitnesstracker.models;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -295,5 +296,32 @@ public class FisicalAvaliation implements Parcelable {
         return null;
     }
 
-
+    public Double getValueByQuestion(Context context, String question) {
+        if (question.equals(context.getString(R.string.question_neck))) {
+            return neck;
+        } else if (question.equals(context.getString(R.string.question_shoulders))) {
+            return shoulders;
+        } else if (question.equals(context.getString(R.string.question_breastplate))) {
+            return breastplate;
+        } else if (question.equals(context.getString(R.string.question_waist))) {
+            return waist;
+        } else if (question.equals(context.getString(R.string.question_abdomen))) {
+            return abdomen;
+        } else if (question.equals(context.getString(R.string.question_rightArm))) {
+            return rightArm;
+        } else if (question.equals(context.getString(R.string.question_leftArm))) {
+            return leftArm;
+        } else if (question.equals(context.getString(R.string.question_rightLeg))) {
+            return rightLeg;
+        } else if (question.equals(context.getString(R.string.question_leftLeg))) {
+            return leftLeg;
+        } else if (question.equals(context.getString(R.string.question_rightCalf))) {
+            return rightCalf;
+        } else if (question.equals(context.getString(R.string.question_leftCalf))) {
+            return leftCalf;
+        } else if (question.equals(context.getString(R.string.question_weight))) {
+            return weight;
+        }
+        return null;
+    }
 }

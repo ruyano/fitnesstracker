@@ -3,6 +3,11 @@ package br.com.fitnesstracker.view.list;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.qanda.models.Question;
+import com.example.qanda.utils.QAndA;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+
 import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.FragmentListBinding;
 import br.com.fitnesstracker.models.FisicalAvaliation;
@@ -18,19 +30,6 @@ import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRe
 import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRepositoryImpl;
 import br.com.fitnesstracker.util.AppUtil;
 import br.com.fitnesstracker.util.QuestionsUtil;
-
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.qanda.models.Question;
-import com.example.qanda.utils.QAndA;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,23 +57,25 @@ public class ListFragment extends Fragment {
         setupRecyclerView();
         setupListObserver();
         mViewModel.getList();
-
         setupEditButton();
+        setupDeleteButton();
+    }
 
+    private void setupDeleteButton() {
         mViewModel.getDeleteButtonLiveData().observe(this, new Observer<FisicalAvaliation>() {
             @Override
             public void onChanged(final FisicalAvaliation fisicalAvaliation) {
                 AppUtil.showAlertDialog(getContext(),
-                        "Atenção",
-                        "Dejesa mesmo deletetar a avaliação de " + fisicalAvaliation.getDate(),
-                        "sim",
+                        getResources().getString(R.string.atention),
+                        getString(R.string.deleteDialogMessage) + fisicalAvaliation.getDate(),
+                        getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mViewModel.deleteFisicalAvaliation(fisicalAvaliation);
                             }
                         },
-                        "não",
+                        getString(R.string.no),
                         null);
             }
         });

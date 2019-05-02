@@ -94,5 +94,9 @@
     <!-- Measures Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
+    <string name="atention">Atenção</string>
+    <string name="deleteDialogMessage">Dejesa mesmo deletetar a avaliação de</string>
+    <string name="yes">sim</string>
+    <string name="no">não</string>
 
 </resources>
