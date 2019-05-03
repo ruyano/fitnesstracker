@@ -31,17 +31,20 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <Spinner
+                    android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="18dp"
                     android:layout_marginBottom="10dp"
-                    android:entries="@{viewModel.model.chartSpinnerEntries}" />
+                    android:entries="@{viewModel.model.chartSpinnerEntries}"
+                    android:selectedItemPosition="@={viewModel.model.chartSpinnerSelectedPosition}" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/chart_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_margin="@dimen/list_item_card_margin"
@@ -55,6 +58,7 @@
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clickable="false"
                     android:layout_margin="@dimen/list_item_card_margin"
                     app:visibilityBool="@{viewModel.model.chartVisible}" />
 
@@ -65,6 +69,13 @@
                     app:visibilityBool="@{viewModel.model.chartProgressVisible}" />
 
             </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/chart_card_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

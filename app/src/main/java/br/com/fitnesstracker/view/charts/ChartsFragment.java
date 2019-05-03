@@ -30,10 +30,12 @@ public class ChartsFragment extends Fragment
     private FragmentChartsBinding mFragmentChartsBinding;
     private ChartsFragmentViewModel mViewModel;
     private QuestionsUtil mQuestionsUtil;
+    private ArrayList<FisicalAvaliation> mFsicalAvaliations;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentChartsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_charts, container, false);
+        setupChartConfigs();
         mQuestionsUtil = new QuestionsUtil(PreferenceManager.getDefaultSharedPreferences(getContext()), getResources());
         setupViewModel(savedInstanceState);
         return mFragmentChartsBinding.getRoot();
@@ -66,28 +68,55 @@ public class ChartsFragment extends Fragment
     }
 
     private void setupListObserver() {
+        mViewModel.getModel().chartSpinnerSelectedPosition.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer position) {
+                if (mFsicalAvaliations != null && !mFsicalAvaliations.isEmpty())
+                    updateChart();
+            }
+        });
+
         mViewModel.getFisicalAvaliationListLiveData().observe(this, new Observer<ArrayList<FisicalAvaliation>>() {
             @Override
             public void onChanged(ArrayList<FisicalAvaliation> fisicalAvaliations) {
                 mViewModel.hideLoading();
-                updateChart(fisicalAvaliations);
+                mFsicalAvaliations = fisicalAvaliations;
+                updateChart();
             }
         });
     }
 
-    private void updateChart(ArrayList<FisicalAvaliation> fisicalAvaliations) {
+    private void updateChart() {
+        String key = mQuestionsUtil.getQuestionsStringArrayForSpinner().get(0);
+        if (mFragmentChartsBinding.spinner.getSelectedItem() != null)
+            key = mFragmentChartsBinding.spinner.getSelectedItem().toString();
         ArrayList<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < fisicalAvaliations.size(); i++) {
-            // TODO - validar null
-            Float peso = Float.valueOf(String.valueOf(fisicalAvaliations.get(i).getValueByQuestion(getContext(), getString(R.string.question_leftCalf))));
-            entries.add(new Entry(i, peso));
+        for (int i = 0; i < mFsicalAvaliations.size(); i++) {
+            Double entrieValue = mFsicalAvaliations.get(i).getValueByQuestion(getContext(), key);
+            if (entrieValue != null)
+                entries.add(new Entry(i, Float.valueOf(String.valueOf(entrieValue))));
         }
-        LineDataSet dataSet = new LineDataSet(entries, null);
+        LineDataSet dataSet = new LineDataSet(entries, key);
         dataSet.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         dataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        dataSet.setDrawCircles(false);
         LineData data = new LineData(dataSet);
         mFragmentChartsBinding.chart.setData(data);
         mFragmentChartsBinding.chart.invalidate();
+    }
+
+    private void setupChartConfigs() {
+        mFragmentChartsBinding.chart.getAxisLeft().setEnabled(false);
+        mFragmentChartsBinding.chart.getAxisRight().setEnabled(false);
+        mFragmentChartsBinding.chart.getXAxis().setEnabled(false);
+        mFragmentChartsBinding.chart.getLegend().setEnabled(false);
+        mFragmentChartsBinding.chart.setDrawBorders(false);
+        mFragmentChartsBinding.chart.setDrawGridBackground(false);
+        mFragmentChartsBinding.chart.setDrawMarkers(false);
+        mFragmentChartsBinding.chart.getDescription().setEnabled(false);
+        mFragmentChartsBinding.chart.setClickable(false);
+        mFragmentChartsBinding.chart.setLongClickable(false);
+        mFragmentChartsBinding.chart.setTouchEnabled(false);
     }
 
     @Override

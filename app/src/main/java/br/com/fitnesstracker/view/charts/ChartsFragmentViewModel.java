@@ -1,5 +1,7 @@
 package br.com.fitnesstracker.view.charts;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -15,6 +17,7 @@ public class ChartsFragmentViewModel extends ViewModel {
 
     private ChartsFragmentModel mModel;
     private FisicalAvaliationRepository mRepository;
+    private ArrayList<String> spinnerEntries;
 
     public void init() {
         mModel = new ChartsFragmentModel();
@@ -22,6 +25,7 @@ public class ChartsFragmentViewModel extends ViewModel {
     }
 
     public void setSpinnerEntries(ArrayList<String> entries) {
+        spinnerEntries = entries;
         mModel.chartSpinnerEntries.set(entries);
     }
 
@@ -46,6 +50,10 @@ public class ChartsFragmentViewModel extends ViewModel {
     public void hideLoading() {
         mModel.chartProgressVisible.set(false);
         mModel.chartVisible.set(true);
+    }
+
+    public void teste(String value) {
+        Log.i("", "");
     }
 
 }
