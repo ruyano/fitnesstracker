@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.qanda.models.Question;
+import com.ruyano.qanda.models.Question;
 
 import java.util.ArrayList;
 

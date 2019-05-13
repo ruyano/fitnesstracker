@@ -11,15 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.qanda.models.Question;
-import com.example.qanda.utils.QAndA;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ruyano.qanda.models.Question;
+import com.ruyano.qanda.utils.QAndA;
 
 import java.util.ArrayList;
 
@@ -32,9 +31,7 @@ import br.com.fitnesstracker.repositories.fisical.avaliation.FisicalAvaliationRe
 import br.com.fitnesstracker.util.AppUtil;
 import br.com.fitnesstracker.util.PreferencesUtil;
 import br.com.fitnesstracker.util.QuestionsUtil;
-import br.com.fitnesstracker.view.charts.ChartsFragment;
-import br.com.fitnesstracker.view.list.ListFragment;
-import br.com.fitnesstracker.view.settings.SettingsFragment;
+import br.com.fitnesstracker.util.WidgetUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,12 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private MainActivityViewModel mViewModel;
-
-    private ChartsFragment chartsFragment = new ChartsFragment();
-    private ListFragment listFragment = new ListFragment();
-    private SettingsFragment settingsFragment = new SettingsFragment();
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    private Fragment currentFragment = chartsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,27 +78,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_charts:
-                        fragmentManager.beginTransaction()
-                                .hide(currentFragment)
-                                .show(chartsFragment)
-                                .commit();
-                        currentFragment = chartsFragment;
+                        showChartsFragment();
                         mViewModel.setFabButtonVisible(true);
                         return true;
                     case R.id.navigation_list:
-                        fragmentManager.beginTransaction()
-                                .hide(currentFragment)
-                                .show(listFragment)
-                                .commit();
-                        currentFragment = listFragment;
+                        showListFragment();
                         mViewModel.setFabButtonVisible(true);
                         return true;
                     case R.id.navigation_settings:
-                        fragmentManager.beginTransaction()
-                                .hide(currentFragment)
-                                .show(settingsFragment)
-                                .commit();
-                        currentFragment = settingsFragment;
+                        showSettingsFragment();
                         mViewModel.setFabButtonVisible(false);
                         return true;
                 }
@@ -117,14 +97,60 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFragments() {
         fragmentManager.beginTransaction()
-                .add(R.id.main_container, chartsFragment)
+                .add(R.id.main_container, MainFragmentManager.getInstance().getChartsFragment())
                 .commit();
         fragmentManager.beginTransaction()
-                .add(R.id.main_container, listFragment).hide(listFragment)
+                .add(R.id.main_container, MainFragmentManager.getInstance().getListFragment())
                 .commit();
         fragmentManager.beginTransaction()
-                .add(R.id.main_container, settingsFragment).hide(settingsFragment)
+                .add(R.id.main_container, MainFragmentManager.getInstance().getSettingsFragment())
                 .commit();
+
+        showCurrentFragment();
+    }
+
+    private void showCurrentFragment() {
+        switch (MainFragmentManager.getInstance().getCurrentFragmentSelected()) {
+            case CHARTS:
+                showChartsFragment();
+                break;
+            case LIST:
+                showListFragment();
+                break;
+            case SETTINGS:
+                showSettingsFragment();
+                break;
+        }
+    }
+
+    private void showChartsFragment() {
+        fragmentManager.beginTransaction()
+                .show(MainFragmentManager.getInstance().getChartsFragment())
+                .hide(MainFragmentManager.getInstance().getListFragment())
+                .hide(MainFragmentManager.getInstance().getSettingsFragment())
+                .commit();
+        MainFragmentManager.getInstance()
+                .setCurrentFragmentSelected(MainFragmentManager.SelectedFragmentType.CHARTS);
+    }
+
+    private void showListFragment() {
+        fragmentManager.beginTransaction()
+                .show(MainFragmentManager.getInstance().getListFragment())
+                .hide(MainFragmentManager.getInstance().getChartsFragment())
+                .hide(MainFragmentManager.getInstance().getSettingsFragment())
+                .commit();
+        MainFragmentManager.getInstance()
+                .setCurrentFragmentSelected(MainFragmentManager.SelectedFragmentType.LIST);
+    }
+
+    private void showSettingsFragment() {
+        fragmentManager.beginTransaction()
+                .show(MainFragmentManager.getInstance().getSettingsFragment())
+                .hide(MainFragmentManager.getInstance().getChartsFragment())
+                .hide(MainFragmentManager.getInstance().getListFragment())
+                .commit();
+        MainFragmentManager.getInstance()
+                .setCurrentFragmentSelected(MainFragmentManager.SelectedFragmentType.SETTINGS);
     }
 
     public void startQAndA(View view) {
@@ -145,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             FisicalAvaliation fisicalAvaliation = AppUtil.getFisicalAvaliationObj(this, questions);
             FisicalAvaliationRepository fisicalAvaliationRepository = new FisicalAvaliationRepositoryImpl();
             fisicalAvaliationRepository.createOrUpdateFisicalAvaliation(FirebaseAuth.getInstance().getUid(), fisicalAvaliation);
+            WidgetUtil.setFisicalAvaliation(this, fisicalAvaliation);
         }
     }
 

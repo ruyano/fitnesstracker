@@ -3,12 +3,13 @@ package br.com.fitnesstracker.view.list;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.qanda.BR;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ruyano.qanda.BR;
+
 import br.com.fitnesstracker.R;
 
 public class FisicalAvaliationListAdapter extends RecyclerView.Adapter<FisicalAvaliationListAdapter.ViewHolder> {

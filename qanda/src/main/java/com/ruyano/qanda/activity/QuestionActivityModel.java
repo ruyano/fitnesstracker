@@ -1,9 +1,9 @@
-package com.example.qanda.activity;
-
-import com.example.qanda.R;
-import com.example.qanda.models.Question.AnswerType;
+package com.ruyano.qanda.activity;
 
 import androidx.databinding.ObservableField;
+
+import com.ruyano.qanda.R;
+import com.ruyano.qanda.models.Question.AnswerType;
 
 public class QuestionActivityModel {
 

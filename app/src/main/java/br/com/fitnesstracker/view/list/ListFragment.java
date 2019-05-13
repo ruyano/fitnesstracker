@@ -17,9 +17,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.qanda.models.Question;
-import com.example.qanda.utils.QAndA;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ruyano.qanda.models.Question;
+import com.ruyano.qanda.utils.QAndA;
 
 import java.util.ArrayList;
 

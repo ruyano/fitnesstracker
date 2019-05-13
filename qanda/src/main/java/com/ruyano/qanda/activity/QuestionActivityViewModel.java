@@ -1,14 +1,14 @@
-package com.example.qanda.activity;
-
-import com.example.qanda.R;
-import com.example.qanda.models.Question;
-import com.example.qanda.utils.QandAUtils;
-
-import java.util.ArrayList;
-import java.util.Calendar;
+package com.ruyano.qanda.activity;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.ruyano.qanda.R;
+import com.ruyano.qanda.models.Question;
+import com.ruyano.qanda.utils.QandAUtils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class QuestionActivityViewModel extends ViewModel {
 

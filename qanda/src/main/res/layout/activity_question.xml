@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.qanda.activity.QuestionActivityViewModel" />
+            type="com.ruyano.qanda.activity.QuestionActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

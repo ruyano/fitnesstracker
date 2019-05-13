@@ -1,11 +1,8 @@
-package com.example.qanda.utils;
+package com.ruyano.qanda.utils;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -13,14 +10,10 @@ import android.widget.EditText;
 
 import androidx.databinding.BindingAdapter;
 
-import com.example.qanda.models.Question.AnswerType;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ruyano.qanda.models.Question.AnswerType;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class CustomViewBindings {
 

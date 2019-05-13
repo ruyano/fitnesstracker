@@ -1,11 +1,11 @@
-package com.example.qanda.utils;
+package com.ruyano.qanda.utils;
 
 import android.app.Activity;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.qanda.models.Question;
-import com.example.qanda.activity.QuestionActivity;
+import com.ruyano.qanda.activity.QuestionActivity;
+import com.ruyano.qanda.models.Question;
 
 import java.util.ArrayList;
 

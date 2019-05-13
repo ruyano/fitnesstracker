@@ -1,4 +1,4 @@
-package com.example.qanda.utils;
+package com.ruyano.qanda.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;

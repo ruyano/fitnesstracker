@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:text="@={viewModel.loginModel.email}"
-                    android:textColor="@color/loginTextColor"
+                    android:textColor="@color/white"
                     app:onFocus="@{viewModel.getFocusChangeEmail()}" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,7 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/loginTextColor">
+                app:passwordToggleTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:text="@={viewModel.loginModel.password}"
-                    android:textColor="@color/loginTextColor"
+                    android:textColor="@color/white"
                     app:onFocus="@{viewModel.getFocusChangePassword()}" />
 
             </com.google.android.material.textfield.TextInputLayout>

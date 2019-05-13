@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.qanda.models.Question;
+import com.ruyano.qanda.models.Question;
 
 import java.util.ArrayList;
 
@@ -323,5 +323,49 @@ public class FisicalAvaliation implements Parcelable {
             return weight;
         }
         return null;
+    }
+
+    public ArrayList<SingleFisicalAvaliation> getSingleAvaliationArray(Context context) {
+        ArrayList<SingleFisicalAvaliation> list = new ArrayList<>();
+        if (date != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_date), date));
+        }
+        if (neck != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_neck), neck.toString()));
+        }
+        if (shoulders != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_shoulders), shoulders.toString()));
+        }
+        if (breastplate != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_breastplate), breastplate.toString()));
+        }
+        if (waist != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_waist), waist.toString()));
+        }
+        if (abdomen != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_abdomen), abdomen.toString()));
+        }
+        if (rightArm != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_rightArm), rightArm.toString()));
+        }
+        if (leftArm != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_leftArm), leftArm.toString()));
+        }
+        if (rightLeg != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_rightLeg), rightLeg.toString()));
+        }
+        if (leftLeg != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_leftLeg), leftLeg.toString()));
+        }
+        if (rightCalf != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_rightCalf), rightCalf.toString()));
+        }
+        if (leftCalf != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_leftCalf), leftCalf.toString()));
+        }
+        if (weight != null) {
+            list.add(new SingleFisicalAvaliation(context.getString(R.string.question_weight), weight.toString()));
+        }
+        return list;
     }
 }

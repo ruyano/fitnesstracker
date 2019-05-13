@@ -1,17 +1,9 @@
-package com.example.qanda.activity;
+package com.ruyano.qanda.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.qanda.utils.QAndA;
-import com.example.qanda.models.Question;
-import com.example.qanda.R;
-import com.example.qanda.databinding.ActivityQuestionBinding;
-import com.example.qanda.utils.QandAUtils;
-
-import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -19,7 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.example.qanda.utils.QAndA.QUESTIONS_LIST;
+import com.ruyano.qanda.R;
+import com.ruyano.qanda.databinding.ActivityQuestionBinding;
+import com.ruyano.qanda.models.Question;
+import com.ruyano.qanda.utils.QAndA;
+import com.ruyano.qanda.utils.QandAUtils;
+
+import java.util.ArrayList;
+
+import static com.ruyano.qanda.utils.QAndA.QUESTIONS_LIST;
 
 public class QuestionActivity extends AppCompatActivity {
 

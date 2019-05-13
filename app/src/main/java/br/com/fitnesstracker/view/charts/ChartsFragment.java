@@ -23,6 +23,7 @@ import br.com.fitnesstracker.R;
 import br.com.fitnesstracker.databinding.FragmentChartsBinding;
 import br.com.fitnesstracker.models.FisicalAvaliation;
 import br.com.fitnesstracker.util.QuestionsUtil;
+import br.com.fitnesstracker.util.WidgetUtil;
 
 public class ChartsFragment extends Fragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,6 +83,7 @@ public class ChartsFragment extends Fragment
                 mViewModel.hideLoading();
                 mFsicalAvaliations = fisicalAvaliations;
                 updateChart();
+                WidgetUtil.setFisicalAvaliation(getContext(), fisicalAvaliations.get(fisicalAvaliations.size() - 1));
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.qanda.utils;
+package com.ruyano.qanda.utils;
 
 import android.text.Editable;
 import android.text.Selection;

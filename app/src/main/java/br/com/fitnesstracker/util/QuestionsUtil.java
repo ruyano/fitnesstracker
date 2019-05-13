@@ -3,7 +3,7 @@ package br.com.fitnesstracker.util;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
-import com.example.qanda.models.Question;
+import com.ruyano.qanda.models.Question;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

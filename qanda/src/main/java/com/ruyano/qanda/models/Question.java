@@ -1,4 +1,4 @@
-package com.example.qanda.models;
+package com.ruyano.qanda.models;
 
 
 import android.os.Parcel;
